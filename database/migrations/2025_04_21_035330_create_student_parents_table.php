@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('student_parents', function (Blueprint $table) {
             $table->id();
             $table->string('parent_name');
-            $table->integer('contact');
+            $table->char('contact', 20);
             $table->timestamps();
         });
     }
