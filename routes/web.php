@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentParentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [StudentController::class, 'index']);
+
+Route::resource('/student', StudentController::class)->except('show');
+Route::resource('/kelas', ClassroomController::class)->except('show');
+Route::resource('/wali', StudentParentController::class)->except('show');
+Route::get('/search', [StudentController::class])->name('student.search');

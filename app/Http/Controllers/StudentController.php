@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Student;
+use App\Models\StudentParent;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -10,9 +12,30 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $query = Student::with('classroom', 'studentParent');
+        $title = 'Data Siswa';
+
+        if($search)
+        {
+            $query->where('student_name', 'like', "%{$search}%")
+                    ->orWhere('NIS', 'like', "%{$search}%")
+                    ->orWhere('gender', 'like', "%{$search}%")
+                    ->orWhere('place_of_birth', 'like', "%{$search}%")
+                    ->orWhere('date_of_birth', 'like', "%{$search}%")
+                    ->orWhereHas('classroom', function($q) use ($search) {
+                        $q->where('class_name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('studentParent', function($q) use ($search) {
+                        $q->where('parent_name', 'like', "%{$search}%");
+                    });
+        }
+
+        $students = $query->orderBy('student_name')->paginate(10);
+
+        return view('siswa.index', compact('students', 'title'));
     }
 
     /**
@@ -20,7 +43,10 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $classrooms = Classroom::all();
+        $parents = StudentParent::all();
+
+        return view('siswa.create', compact('classrooms', 'parents'));
     }
 
     /**
@@ -28,15 +54,9 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        Student::create($request->all());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
-    {
-        //
+        return redirect()->route('student.index')->with('success', 'Siswa berhasil ditambahkan!');
     }
 
     /**
@@ -44,7 +64,12 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        $classrooms = Classroom::all();
+        $parents = StudentParent::all();
+
+        session(['previous_url' => url()->previous()]);
+
+        return view('siswa.edit', compact('student', 'classrooms', 'parents'));
     }
 
     /**
@@ -52,7 +77,9 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        $student->update($request->all());
+        
+        return redirect(session('previous_url', route('student.index')))->with('success', 'Data siswa berhasil diperbarui!');
     }
 
     /**
@@ -60,6 +87,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        $student->delete();
+
+        return redirect()->route('student.index')->with('success', 'Data siswa berhasil dihapus');
     }
 }
