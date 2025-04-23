@@ -84,7 +84,13 @@
             <div class="col-lg-8">
                 <div class="form-card">
                     <div class="form-header">
-                        <h2 class="form-title"><i class="bi bi-person-vcard"></i> {{ $title }}</h2>
+                        @if (Route::is('student.create'))
+                            <h2 class="form-title"><i class="bi bi-person-vcard"></i> {{ $title }}</h2>
+                        @elseif(Route::is('classroom.create'))
+                            <h2 class="form-title"><i class="bi bi-journal-plus"></i> {{ $title }}</h2>
+                        @elseif(Route::is('studentParent.index'))
+                            <h2 class="form-title"><i class="bi bi-person-video3"></i>{{ $title }}</h2> 
+                        @endif
                     </div>
                     <div class="form-body">
                         @yield('content')

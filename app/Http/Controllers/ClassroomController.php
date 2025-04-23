@@ -13,16 +13,24 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $classrooms = Classroom::paginate(5);
+        $query = Classroom::query();
+        $title = 'Data Kelas';
 
+        if($search){
+            $query->where('class_name', 'like',  "%{$search}%");
+        }
+
+        $classrooms = $query->orderBy('class_name')->paginate(10);
+
+        return view('kelas.index', compact('classrooms', 'search', 'title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
+        $title = 'Tambah Data Kelas';
+
+        return view('kelas.create', compact('title'));
     }
 
     /**
@@ -30,7 +38,7 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

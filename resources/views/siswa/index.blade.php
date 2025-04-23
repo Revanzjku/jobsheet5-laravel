@@ -8,7 +8,7 @@
                     <i class="bi bi-journal-text me-1"></i> Kelola Kelas
                 </a>
                 <a href="{{ route('studentParent.index') }}" class="btn btn-primary">
-                    <i class="bi bi-person-vcard me-1"></i> Kelola Wali
+                    <i class="bi bi-person-video"></i> Kelola Wali
                 </a>
             </div>
         </div>
