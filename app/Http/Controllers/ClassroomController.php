@@ -10,9 +10,11 @@ class ClassroomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $classrooms = Classroom::paginate(5);
+
     }
 
     /**

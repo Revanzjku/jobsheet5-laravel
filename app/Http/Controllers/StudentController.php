@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\StudentParent;
@@ -35,6 +36,8 @@ class StudentController extends Controller
 
         $students = $query->orderBy('student_name')->paginate(10);
 
+        session(['previous_url' => request()->fullUrl()]);
+
         return view('siswa.index', compact('students', 'title'));
     }
 
@@ -45,18 +48,19 @@ class StudentController extends Controller
     {
         $classrooms = Classroom::all();
         $parents = StudentParent::all();
+        $title = 'Tambah Data Siswa';
 
-        return view('siswa.create', compact('classrooms', 'parents'));
+        return view('siswa.create', compact('classrooms', 'parents', 'title'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
         Student::create($request->all());
 
-        return redirect()->route('student.index')->with('success', 'Siswa berhasil ditambahkan!');
+        return redirect()->route('student.index')->with('success', 'Siswa baru berhasil ditambahkan!');
     }
 
     /**
@@ -66,16 +70,15 @@ class StudentController extends Controller
     {
         $classrooms = Classroom::all();
         $parents = StudentParent::all();
+        $title = 'Edit Data Siswa';
 
-        session(['previous_url' => url()->previous()]);
-
-        return view('siswa.edit', compact('student', 'classrooms', 'parents'));
+        return view('siswa.edit', compact('student', 'classrooms', 'parents', 'title'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student)
+    public function update(StudentRequest $request, Student $student)
     {
         $student->update($request->all());
         
@@ -89,6 +92,6 @@ class StudentController extends Controller
     {
         $student->delete();
 
-        return redirect()->route('student.index')->with('success', 'Data siswa berhasil dihapus');
+        return redirect()->route('student.index')->with('success', 'Data siswa berhasil dihapus!');
     }
 }
