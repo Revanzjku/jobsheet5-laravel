@@ -7,22 +7,22 @@
                 <a href="{{ route('student.index') }}" class="btn btn-primary">
                     <i class="bi bi-people-fill me-2"></i> Kelola Siswa
                 </a>
-                <a href="{{ route('studentParent.index') }}" class="btn btn-primary">
-                    <i class="bi bi-person-video"></i> Kelola Wali
+                <a href="{{ route('classroom.index') }}" class="btn btn-primary">
+                    <i class="bi bi-journal-text me-1"></i> Kelola Kelas
                 </a>
             </div>
         </div>
         <div class="col-12 col-md-5">
-            <form action="{{ route('classroom.index') }}" method="GET" class="d-flex search-section">
-                <input type="search" name="search" class="form-control me-2" placeholder="Cari kelas..." value="{{ request('search') }}">
+            <form action="{{ route('studentParent.index') }}" method="GET" class="d-flex search-section">
+                <input type="search" name="search" class="form-control me-2" placeholder="Cari wali..." value="{{ request('search') }}">
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
             </form>
         </div>
         <div class="col-12 col-md-3 text-md-end">
-            <a href="{{ route('classroom.create') }}" class="btn btn-success w-100 w-md-auto">
-                <i class="bi bi-plus-circle me-1"></i> Tambah Kelas
+            <a href="{{ route('studentParent.create') }}" class="btn btn-success w-100 w-md-auto">
+                <i class="bi bi-plus-circle me-1"></i> Tambah Wali Murid
             </a>
         </div>
     </div>
@@ -46,28 +46,26 @@
             <thead class="table-light">
                 <tr class="text-center">
                     <th width="10%"><i class="bi bi-hash me-1"></i></th>
-                    <th><i class="bi bi-journal-text me-1"></i> Nama Kelas</th>
-                    <th width="20%"><i class="bi bi-gear-fill me-1"></i> Aksi</th>
+                    <th><i class="bi bi-person-vcard me-1"></i> Nama Wali</th>
+                    <th><i class="bi bi-telephone-fill me-1"></i> Kontak</th>
+                    <th><i class="bi bi-gear-fill me-1"></i> Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($classrooms as $classroom)    
+                @foreach ($studentParents as $studentParent)    
                 <tr class="text-center">
-                    <td class="fw-semibold">{{ $classrooms->firstItem() + $loop->index }}</td>
-                    <td>
-                        <span class="badge bg-primary rounded-pill px-3 py-2">
-                            {{ $classroom->class_name }}
-                        </span>
-                    </td>
+                    <td class="fw-semibold">{{ $studentParents->firstItem() + $loop->index }}</td>
+                    <td>{{ $studentParent->parent_name }}</td>
+                    <td>{{ $studentParent->contact }}</td>
                     <td>
                         <div class="d-flex justify-content-center">
-                            <a href="{{ route('classroom.edit', $classroom) }}" class="btn btn-warning btn-sm me-1" title="Edit">
+                            <a href="{{ route('studentParent.edit', $studentParent) }}" class="btn btn-warning btn-sm me-1" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('classroom.destroy', $classroom) }}" method="post" class="d-inline">
+                            <form action="{{ route('studentParent.destroy', $studentParent) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus kelas ini?')" title="Hapus">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus wali murid ini?')" title="Hapus">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>                    
@@ -81,7 +79,7 @@
 
     <div class="d-flex justify-content-center mt-4">
         <nav>
-            {{ $classrooms->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
+            {{ $studentParents->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
         </nav>
     </div>
 </div>

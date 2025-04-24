@@ -22,6 +22,8 @@ class ClassroomController extends Controller
 
         $classrooms = $query->orderBy('class_name')->paginate(10);
 
+        session(['previous_url' => request()->fullUrl()]);
+
         return view('kelas.index', compact('classrooms', 'search', 'title'));
     }
 
@@ -38,15 +40,20 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        
-    }
+        $request->validate([
+            'class_name' => 'required|string|unique:classrooms,class_name'
+        ],
+        [
+            'class_name.required' => 'Nama kelas harus diisi.',
+            'class_name.string' => 'Nama kelas harus berupa teks.',
+            'class_name.unique' => 'Nama kelas ini sudah digunakan. Silakan pilih nama kelas yang lain.'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Classroom $classroom)
-    {
-        //
+        Classroom::create([
+            'class_name' => $request->class_name
+        ]);
+
+        return redirect()->route('classroom.index')->with('success', 'Data kelas baru berhasil ditambahkan!');
     }
 
     /**
@@ -54,7 +61,9 @@ class ClassroomController extends Controller
      */
     public function edit(Classroom $classroom)
     {
-        //
+        $title = 'Edit Data Kelas';
+
+        return view('kelas.edit', compact('title', 'classroom'));
     }
 
     /**
@@ -62,7 +71,18 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, Classroom $classroom)
     {
-        //
+        $request->validate([
+            'class_name' => 'required|string|unique:classrooms,class_name,' .$classroom->id
+        ],
+        [
+            'class_name.required' => 'Nama kelas harus diisi.',
+            'class_name.string' => 'Nama kelas harus berupa teks.',
+            'class_name.unique' => 'Nama kelas ini sudah digunakan. Silakan pilih nama kelas yang lain.'
+        ]);
+
+        $classroom->update(['class_name' => $request->class_name]);
+
+        return redirect(session('previous_url', route('classroom.index')))->with('success', 'Data kelas berhasil diperbarui!');
     }
 
     /**
@@ -70,6 +90,12 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        //
+        if($classroom->students()->count() > 0)
+        {
+            return redirect()->route('classroom.index')->with('error', 'Kelas tidak dapat dihapus karena masih diisi oleh siswa!');
+        }
+        $classroom->delete();
+
+        return redirect()->route('classroom.index')->with('success', 'Data kelas berhasil dihapus!');
     }
 }

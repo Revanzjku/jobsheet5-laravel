@@ -69,7 +69,7 @@
                                 <form action="{{ route('student.destroy', $student) }}" method="post" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus siswa ini?')">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>                    

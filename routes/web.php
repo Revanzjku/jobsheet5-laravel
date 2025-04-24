@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StudentController::class, 'index']);
+Route::get('/', [StudentController::class, 'index'])->name('home');
 
 Route::resource('/student', StudentController::class)->except('show');
 Route::resource('/classroom', ClassroomController::class)->except('show');

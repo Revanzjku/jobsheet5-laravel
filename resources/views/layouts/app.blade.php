@@ -88,12 +88,12 @@
     <div class="container py-5">
         <div class="card mb-4">
             <div class="card-header">
-                @if (Route::is('student.index'))
-                    <h2 class="mb-0 text-center"><i class="bi bi-people-fill me-2"></i>{{ $title }}</h2>
+                @if (Route::is(['student.index', 'home']))
+                    <h2 class="mb-0 text-center"><i class="bi bi-people-fill me-2"></i> {{ $title }}</h2>
                 @elseif(Route::is('classroom.index'))
-                    <h2 class="mb-0 text-center"><i class="bi bi-journal-text me-1"></i>{{ $title }}</h2>
+                    <h2 class="mb-0 text-center"><i class="bi bi-journal-text me-1"></i> {{ $title }}</h2>
                 @elseif(Route::is('studentParent.index'))
-                    <h2 class="mb-0 text-center"><i class="bi bi-person-video"></i>{{ $title }}</h2>
+                    <h2 class="mb-0 text-center"><i class="bi bi-person-video"></i> {{ $title }}</h2>
                 @endif
             </div>
             @yield('content')

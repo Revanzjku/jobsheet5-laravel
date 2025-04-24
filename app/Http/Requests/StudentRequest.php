@@ -22,7 +22,11 @@ class StudentRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return [
+            'NIS' => [
+            'required',
+            'size:7',
+            Rule::unique('students')->ignore($this->route('student'))],
             'student_name' => 'required|string|max:255',
             'gender' => 'required|in:L,P',
             'place_of_birth' => 'required|string|max:100',
@@ -30,18 +34,6 @@ class StudentRequest extends FormRequest
             'classroom_id' => 'required|exists:classrooms,id',
             'student_parent_id' => 'required|exists:student_parents,id'
         ];
-        if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $studentId = $this->route('student')->id;
-            $rules['NIS'] = [
-                'required',
-                'size:7',
-                Rule::unique('students', 'NIS')->ignore($studentId)
-            ];
-        } else {
-            $rules['NIS'] = 'required|size:7|unique:students,NIS';
-        }
-        
-        return $rules;
     }
     public function messages(): array
     {

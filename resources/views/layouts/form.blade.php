@@ -84,12 +84,12 @@
             <div class="col-lg-8">
                 <div class="form-card">
                     <div class="form-header">
-                        @if (Route::is('student.create'))
+                        @if (Route::is(['student.create', 'student.edit']))
                             <h2 class="form-title"><i class="bi bi-person-vcard"></i> {{ $title }}</h2>
-                        @elseif(Route::is('classroom.create'))
+                        @elseif(Route::is(['classroom.create', 'classroom.edit']))
                             <h2 class="form-title"><i class="bi bi-journal-plus"></i> {{ $title }}</h2>
-                        @elseif(Route::is('studentParent.index'))
-                            <h2 class="form-title"><i class="bi bi-person-video3"></i>{{ $title }}</h2> 
+                        @elseif(Route::is(['studentParent.create', 'studentParent.edit']))
+                            <h2 class="form-title"><i class="bi bi-person-video3"></i> {{ $title }}</h2> 
                         @endif
                     </div>
                     <div class="form-body">

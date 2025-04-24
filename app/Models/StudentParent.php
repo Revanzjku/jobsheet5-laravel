@@ -9,7 +9,7 @@ class StudentParent extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = ['parent_name', 'contact'];
 
     public function students()
     {
