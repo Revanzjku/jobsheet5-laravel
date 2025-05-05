@@ -64,13 +64,30 @@
                             <a href="{{ route('classroom.edit', $classroom) }}" class="btn btn-warning btn-sm me-1" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('classroom.destroy', $classroom) }}" method="post" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus kelas ini?')" title="Hapus">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>                    
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $classroom->id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <div class="modal fade" id="deleteModal{{ $classroom->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $classroom->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $classroom->id }}">Konfirmasi Hapus</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Yakin ingin menghapus kelas ini?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <form action="{{ route('classroom.destroy', $classroom) }}" method="post" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
