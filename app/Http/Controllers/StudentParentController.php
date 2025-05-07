@@ -34,8 +34,9 @@ class StudentParentController extends Controller
     public function create()
     {
         $title = 'Tambah Data Wali Murid';
+        $studentParent = null;
 
-        return view('wali_murid.create', compact('title'));
+        return view('wali_murid.form', compact('title', 'studentParent'));
     }
 
     /**
@@ -69,7 +70,7 @@ class StudentParentController extends Controller
     {
         $title = 'Edit Data Wali Murid';
 
-        return view('wali_murid.edit', compact('title', 'studentParent'));
+        return view('wali_murid.form', compact('title', 'studentParent'));
     }
 
     /**

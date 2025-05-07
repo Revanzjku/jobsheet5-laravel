@@ -49,8 +49,9 @@ class StudentController extends Controller
         $classrooms = Classroom::all();
         $parents = StudentParent::all();
         $title = 'Tambah Data Siswa';
+        $student = null;
 
-        return view('siswa.create', compact('classrooms', 'parents', 'title'));
+        return view('siswa.form', compact('classrooms', 'parents', 'title', 'student'));
     }
 
     /**
@@ -72,7 +73,7 @@ class StudentController extends Controller
         $parents = StudentParent::all();
         $title = 'Edit Data Siswa';
 
-        return view('siswa.edit', compact('student', 'classrooms', 'parents', 'title'));
+        return view('siswa.form', compact('student', 'classrooms', 'parents', 'title'));
     }
 
     /**

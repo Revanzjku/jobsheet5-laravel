@@ -1,12 +1,15 @@
 @extends('layouts.form')
 @section('content')
-<form method="POST" action="{{ route('classroom.store') }}">
+<form method="POST" action="{{ $classroom ? route('classroom.update', $classroom) : route('classroom.store')  }}">
     @csrf
+    @if ($classroom)
+        @method('PUT')
+    @endif
     
     <div class="form-section">
         <label for="class_name" class="form-label"><i class="bi bi-journal-text me-1"></i> Nama Kelas</label>
         <input type="text" id="class_name" name="class_name" class="form-control @error('class_name') is-invalid @enderror" required 
-                placeholder="Masukkan Nama Kelas" value="{{ old('class_name') }}">
+                placeholder="Masukkan Nama Kelas" value="{{ old('class_name', $classroom->class_name ?? '') }}">
         @error('class_name')
             <div class="invalid-feedback">
                 <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}

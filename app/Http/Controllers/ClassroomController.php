@@ -31,8 +31,9 @@ class ClassroomController extends Controller
     public function create()
     {
         $title = 'Tambah Data Kelas';
+        $classroom = null;
 
-        return view('kelas.create', compact('title'));
+        return view('kelas.form', compact('title', 'classroom'));
     }
 
     /**
@@ -63,7 +64,7 @@ class ClassroomController extends Controller
     {
         $title = 'Edit Data Kelas';
 
-        return view('kelas.edit', compact('title', 'classroom'));
+        return view('kelas.form', compact('title', 'classroom'));
     }
 
     /**

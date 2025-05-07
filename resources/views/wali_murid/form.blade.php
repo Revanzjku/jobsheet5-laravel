@@ -1,12 +1,15 @@
 @extends('layouts.form')
 @section('content')
-<form method="POST" action="{{ route('studentParent.store') }}">
+<form method="POST" action="{{ $studentParent ? route('studentParent.update', $studentParent) : route('studentParent.store') }}">
     @csrf
+    @if ($studentParent)
+        @method('PUT')
+    @endif
     
     <div class="form-section">
         <label for="parent_name" class="form-label"><i class="bi bi-person-fill me-1"></i> Nama Wali Murid</label>
         <input type="text" id="parent_name" name="parent_name" class="form-control @error('parent_name') is-invalid @enderror" required 
-                placeholder="Masukkan Nama Wali Murid" value="{{ old('parent_name') }}">
+                placeholder="Masukkan Nama Wali Murid" value="{{ old('parent_name', $studentParent->parent_name ?? '') }}">
         @error('parent_name')
             <div class="invalid-feedback">
                 <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
@@ -17,7 +20,7 @@
     <div class="form-section">
         <label for="contact" class="form-label"><i class="bi bi-telephone-fill me-1"></i> Nomor Telepon</label>
         <input type="text" maxlength="20" id="contact" name="contact" class="form-control @error('contact') is-invalid @enderror" required 
-                placeholder="Masukkan Nomor Telepon" value="{{ old('contact') }}">
+                placeholder="Masukkan Nomor Telepon" value="{{ old('contact', $studentParent->contact ?? '') }}">
         @error('contact')
             <div class="invalid-feedback">
                 <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
