@@ -33,7 +33,7 @@ class ClassroomController extends Controller
         $title = 'Tambah Data Kelas';
         $classroom = null;
 
-        return view('kelas.form', compact('title', 'classroom'));
+        return view('kelas.kelas_form', compact('title', 'classroom'));
     }
 
     /**
@@ -64,7 +64,7 @@ class ClassroomController extends Controller
     {
         $title = 'Edit Data Kelas';
 
-        return view('kelas.form', compact('title', 'classroom'));
+        return view('kelas.kelas_form', compact('title', 'classroom'));
     }
 
     /**
